@@ -1,4 +1,5 @@
 use crate::envelope::{hex, Datagram, Protocol, Segment, Syn};
+use crate::kernel::Kernel;
 use crate::net::{SocketPair, TcpListener, UdpSocket};
 use crate::{Envelope, TRACING_TARGET};
 
@@ -25,6 +26,9 @@ pub(crate) struct Host {
     /// Tracks elapsed time for host and overall simulation.
     pub(crate) timer: HostTimer,
 
+    /// DOCME
+    pub(crate) kernel: Kernel,
+
     /// L4 User Datagram Protocol (UDP).
     pub(crate) udp: Udp,
 
@@ -45,6 +49,7 @@ impl Host {
     ) -> Host {
         Host {
             addr,
+            kernel: Kernel::new(addr),
             udp: Udp::new(udp_capacity),
             tcp: Tcp::new(tcp_capacity),
             timer,
